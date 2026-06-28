@@ -1,0 +1,139 @@
+@font-face {
+    font-family: 'StabilGrotesk';
+    src: url('../Assets/Fonts/StabilGrotesk-Light.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'StabilGrotesk';
+    src: url('../Assets/Fonts/StabilGrotesk-LightItalic.otf') format('opentype');
+    font-weight: 100;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'StabilGrotesk';
+    src: url('../Assets/Fonts/StabilGrotesk-regular.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'StabilGrotesk';
+    src: url('../Assets/Fonts/StabilGrotesk-Bold.otf') format('opentype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'FraktionMono';
+    src: url('../Assets/Fonts/PPFraktionMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'FraktionMono';
+    src: url('../Assets/Fonts/PPFraktionMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+:root{
+    --SafeHomes: #ff0000;
+    --SafeCommunity: #00ff00;
+    --SafeEnvironment: #0000ff;
+}
+
+body{
+  font-family:StabilGrotesk;
+  font-weight: 100;
+}
+
+fieldset{
+  padding:0px;
+  margin:0px;
+  border:none;
+}
+.CheckNested{
+}
+
+.CheckGroup:has(>.CheckGroupHead input.visToggle:not(:checked)) > .CheckNested{
+  display:none;
+}
+
+.CheckGroup{
+  display:flex;
+  display:webkit-flex;
+  flex-direction:Column;
+}
+
+/* .CheckGroup:has(>label>input:not(:checked)) .CheckNested{
+  display:none;
+} */
+
+.CheckGroup>.CheckGroupHead:has(>label>input:checked.filterValue) > label{
+  font-weight:bold;
+}
+
+.CheckGroup>.CheckGroupHead{
+  padding:1rem;
+  display:flex;
+  flex-grow:1;
+  align-items:center;
+  gap:0.25rem;
+}
+.CheckGroup.CheckGroupL1>.CheckGroupHead{
+  background-color:red;
+  color:#FFFFFF;
+}
+.CheckGroup.CheckGroupL2>.CheckGroupHead{
+  border-left:4px solid red;
+}
+.CheckGroup.CheckGroupL3>.CheckGroupHead{
+  border-left:1px solid red;
+}
+
+label.visToggleLabel{
+  display:inline-Block;
+}
+
+label.visToggleLabel::before{
+  display:block;
+  content:'';
+  width:0.5rem;
+  height:0.5rem;
+  background-color:currentColor;
+  clip-path:polygon(0% 0%, 100% 50%, 0% 100%);
+  transform:rotate(0deg);
+  transition:transform 0.25s;
+}
+label.visToggleLabel:has(input:checked)::before{
+  transform:rotate(90deg);
+}
+input.visToggle{
+  display:none;
+}
+
+input.filterValue{
+ display:none;
+}
+
+/* for cards */
+
+.ContentContainer ul,
+.ContentContainer li{
+  list-style-position:inside;
+  margin:0px;
+  list-style:none;
+  padding:0px;
+}
+
+.ContentContainer ul{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+.ContentContainer li{
+  display:block;
+  border:2px solid gray;
+  padding:1rem;
+}
+
+main{
+  display:grid;
+  grid-template-columns:1fr 4fr;
+}
