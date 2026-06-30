@@ -313,7 +313,10 @@ Parser.Data.CaseStudies.forEach((study) => {
         Title: study['Case Study Title'],
         LocationPills: LocationPills,
         DescriptionText: study['Description'],
-        Sources: Sources
+        Sources: Sources,
+        Pillar: study['Pillar'],
+        Recc: study['Recommendation'],
+        PType: study['Policy Type']
     })
 
 

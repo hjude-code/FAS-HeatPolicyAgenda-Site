@@ -217,6 +217,7 @@ export const caseStudyItem =({
     CaseStudyInfo.classList.add('CaseStudyInfo')
     
     const CaseStudyTitle = document.createElement('h4')
+    CaseStudyTitle.classList.add('CaseStudyTitle')
     CaseStudyTitle.textContent = Title
 
     const LocationPillsContainer = pillBox()
@@ -225,7 +226,15 @@ export const caseStudyItem =({
     })
 
     const Taxonomy = document.createElement('div')
-    Taxonomy.classList.add('Taxonomy')
+    Taxonomy.classList.add('Taxonomy');
+
+    const PillarBox = caseStudyItemTaxonomyItem({ TaxonomyName: "Pillar", Value: Pillar });
+    const ReccBox = caseStudyItemTaxonomyItem({ TaxonomyName: "Policy Recommendation", Value: Recc });
+    const PolicyTypeBox = caseStudyItemTaxonomyItem({ TaxonomyName: "Policy Type", Value: PType });
+
+    Taxonomy.appendChild(PillarBox);
+    Taxonomy.appendChild(ReccBox);
+    Taxonomy.appendChild(PolicyTypeBox);
 
     const MoreInfo = document.createElement('div')
     MoreInfo.classList.add('MoreInfo')
@@ -251,7 +260,7 @@ export const caseStudyItem =({
 
     CaseStudyInfo.appendChild(CaseStudyTitle)
     CaseStudyInfo.appendChild(LocationPillsContainer)
-
+    CaseStudyInfo.appendChild(Taxonomy)
 
     addContent(CaseStudyItem, CaseStudyInfo)
     addContent(CaseStudyItem, MoreInfo)

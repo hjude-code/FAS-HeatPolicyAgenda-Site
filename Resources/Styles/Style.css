@@ -286,9 +286,30 @@ input.filterValue{
   margin:1rem 0;
 }
 
-.ExpandRuleBox:has(>label>input:not(:checked)) .ContentArea > .MoreInfo{
-  display:none;
+#CaseStudies .CaseStudyItem .CaseStudyInfo,
+#CaseStudies .CaseStudyItem .MoreInfo{
+  display:grid;
+  grid-template-columns:1fr 1fr;
 }
+
+.CaseStudyItem .CaseStudyTitle{
+  grid-column-start:1;
+}
+.CaseStudyItem .pillBox{
+  grid-column-start:1;
+  grid-row-start:2;
+}
+.CaseStudyItem .Taxonomy{
+  grid-column:2/2;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+}
+
+.ExpandRuleBox:has(>label>input:not(:checked)) .ContentArea > .MoreInfo{
+  display:none !important;
+}
+
+
 
 /* Epanding Rule */
 .ExpandRuleBox{
