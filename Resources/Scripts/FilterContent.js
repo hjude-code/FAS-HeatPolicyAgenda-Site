@@ -3,7 +3,6 @@ import * as Parser from './JsonParser.js'
 
 const FilterGroup = document.querySelector('#FilterGroup')
 
-
 Parser.List.Pillars.forEach(pillar => {
     let CheckGroup = Cmpnt.CheckGroup({ name: pillar, value: pillar, taxonomy:'Pillar' })
 
@@ -41,22 +40,6 @@ function NestCheckGroups(ParentTaxonomy, AssociatedTaxonomy){
 
 
 }    
-
-FilterGroup.addEventListener('change', (e)=>{
-
-  if (e.target.type !== 'checkbox') return
-  const Checkbox = e.target
-  if(!Checkbox.classList.contains('filterValue')) return
-  
-  const nestedGroup = Checkbox.closest('.CheckGroup').querySelector('.CheckNested')
-  if(nestedGroup){
-    updateChildren(Checkbox, nestedGroup)
-  }
-  
-  toggleContentVis(Checkbox)
-  updateParent(Checkbox)
-
-})
 
 function updateParent(Checkbox){
   const groupContainer = Checkbox.closest('.CheckNested')
@@ -100,7 +83,21 @@ function toggleContentVis(Checkbox) {
   })
 }
 
+FilterGroup.addEventListener('change', (e)=>{
 
+  if (e.target.type !== 'checkbox') return
+  const Checkbox = e.target
+  if(!Checkbox.classList.contains('filterValue')) return
+  
+  const nestedGroup = Checkbox.closest('.CheckGroup').querySelector('.CheckNested')
+  if(nestedGroup){
+    updateChildren(Checkbox, nestedGroup)
+  }
+  
+  toggleContentVis(Checkbox)
+  updateParent(Checkbox)
+
+})
 
 const ContentContainer = document.querySelector('.ContentContainer>ul');
 Parser.List.PolicyActions.forEach(action => {

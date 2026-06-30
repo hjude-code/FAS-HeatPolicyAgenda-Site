@@ -36,11 +36,26 @@
     --SafeHomes: #ff0000;
     --SafeCommunity: #00ff00;
     --SafeEnvironment: #0000ff;
+
+    --width-max:1200px;
 }
 
 body{
   font-family:StabilGrotesk;
   font-weight: 100;
+
+}
+
+main,
+header,
+footer{
+    max-width:var(--width-max);
+     margin:auto;
+}
+
+footer{
+    display:flex;
+    justify-content:space-between;
 }
 
 fieldset{
@@ -48,6 +63,38 @@ fieldset{
   margin:0px;
   border:none;
 }
+
+/* Containers */
+
+.Container{
+
+    &.FlexContainer{
+        display:flex;
+
+        &.FlexRow{
+            flex-direction:row;
+        }
+
+        &.FlexCol{
+            flex-direction:column;
+        }
+    }
+
+    &.ContainerGap-Small{
+        gap:1rem;
+    }
+}
+
+/* Database */
+#DatabaseContentLayout{
+
+    display:grid;
+    grid-template-columns:300px 1fr;
+
+}
+
+
+/* Check Nested */
 .CheckNested{
 }
 
@@ -60,10 +107,6 @@ fieldset{
   display:webkit-flex;
   flex-direction:Column;
 }
-
-/* .CheckGroup:has(>label>input:not(:checked)) .CheckNested{
-  display:none;
-} */
 
 .CheckGroup>.CheckGroupHead:has(>label>input:checked.filterValue) > label{
   font-weight:bold;
@@ -133,7 +176,113 @@ input.filterValue{
   padding:1rem;
 }
 
-main{
+/* Map Selector */
+.mapContainer{
+    flex-grow:1;
+}
+
+.mapSelect{
+  border:none;
   display:grid;
-  grid-template-columns:1fr 4fr;
+  width:100%;
+  grid-auto-flow: dense !important;
+}
+
+.stateBox{
+  --ColorMain:#0000ff;
+  --BorderWeight:1px;
+  font-size:0.75rem;
+  font-weight:600;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:1rem 1rem;
+  grid-row-start:var(--RowStart);
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  & > input{
+    display:none;
+  }
+
+  &:has(>input:checked){
+    color:#ffffff;
+  }
+  
+  .mapContainer:has(>label>input:not(:checked))>.mapSelect>&{
+    grid-row-start:auto !important;
+    padding:0rem 1rem;
+  }
+
+  &::before{
+    content:attr(data-abbreviation);
+    display:block;
+    position:relative;
+    z-index:1;
+  }
+
+  &:hover::before,
+  &:has(>input:checked){
+    /* font-weight:1000; */
+  }
+
+  &::after{
+   content:'';
+    display:block;
+    position:absolute;
+    inset:2px;
+    border:var(--BorderWeight) solid var(--ColorMain);
+    z-index:0;
+  }
+  &:has(>input:checked)::after{
+    background-color:var(--ColorMain)
+  }
+  &:hover::after{
+    inset:5px;
+  }
+  
+}
+
+#map-title{
+
+    & h2{
+        margin:0;
+    }
+}
+
+/* Epanding Rule */
+.ExpandRuleBox{
+    display:flex;
+}
+
+.ExpandRuleBox>label>input{
+    display:none;
+}
+
+.ExpandRuleBox>label{
+    display:flex;
+    align-items:start;
+
+    --BorderWidth:2px;
+    --ColorMain:green;
+    border-color:var(--ColorMain);
+    border-style:solid;
+    border-width:0 0 0 0;
+
+    &.FlagLeft{
+        border-width:0 var(--BorderWidth) 0 0;
+        height:100%;
+    }
+
+    &:has(>input:checked){
+        align-items:end;
+    }
+}
+
+.ExpandRuleBox>label> .RuleFlag{
+    width:1rem;
+    height:1rem;
+    background-color:var(--ColorMain);
 }
