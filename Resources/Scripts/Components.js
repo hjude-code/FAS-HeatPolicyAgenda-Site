@@ -327,6 +327,15 @@ function populateMenuSection({
         const MenuItem = DrillDownFilterMenuItem(value)
         MenuSection.append(MenuItem)
     })
+
+    MenuSection.classList.toggle('ActiveSection', true)
+}
+
+function hideMenuSection(MenuSection){
+    if(MenuSection){
+        MenuSection.innerHTML = ''
+        MenuSection.classList.toggle('ActiveSection', false)
+    }
 }
 
 const DrillDownFilterNavItem =({Name, Taxonomy, Level=1}={})=>{
@@ -393,12 +402,13 @@ function DrillDownFilterDrillDown(e){
     const DrillDownFilter = e.target.closest('.DrillDownFilter')
     const FilterNav = DrillDownFilter.querySelector('.DrillDownFilterNav')
     const CurrentTaxonomy = CurrentMenuSection.dataset.taxonomy
-    CurrentMenuSection.innerHTML = ''
     const CurrentLevel = parseInt(DrillDownFilter.dataset.activelevel)
     const NewLevel = CurrentLevel+1
 
     DrillDownFilter.dataset.activelevel = NewLevel
 
+    hideMenuSection(CurrentMenuSection)
+    
     const NextMenuSection = Menu.querySelector(`.DrillDownFilterMenuSection[data-level="${NewLevel}"]`)
     if(NextMenuSection){
         const NewTaxonomy = NextMenuSection.dataset.taxonomy
@@ -437,7 +447,7 @@ function DrillDownFilterDrillUp(e){
             if(NavItem.dataset.level > NewLevel){NavItem.remove()}
         })
 
-        if(CurrentMenuSection){CurrentMenuSection.innerHTML = ''}
+        hideMenuSection(CurrentMenuSection)
 
         populateMenuSection({
             MenuSection:NewMenuSection,
@@ -464,10 +474,7 @@ function ResetFilter(e){
     const FilterNavItems = FilterNav.querySelectorAll('.DrillDownFilterNavItem')
     FilterNavItems.forEach((NavItem)=>{NavItem.remove()})
 
-    if(CurrentMenuSection){
-        CurrentMenuSection.style.display = ''
-        CurrentMenuSection.innerHTML = ''
-    }
+    hideMenuSection(CurrentMenuSection)
     populateMenuSection({
         MenuSection:InitialMenuSection,
         Taxonomy:InitialMenuSection.dataset.taxonomy

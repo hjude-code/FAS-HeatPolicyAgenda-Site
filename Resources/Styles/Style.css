@@ -119,19 +119,34 @@ li.pill{
 
 /* Drilldown */
 
-.DrillDownFilterNav{
+.DrillDownFilter.DrillDownFilterMenuSection,
+.DrillDownFilter.DrillDownFilterNav{
+  display: flex;
+  flex-wrap: none;
+}
 
+.DrillDownFilterNav{
   :not(.ShowNav)>&{
     display: none;
   }
 }
-
 .DrillDownFilterMenuSection{
-  display:flex
+  &:not(.ActiveSection){
+    display:none;
+  }
 }
 
-.
+.DrillDownFilter button{
+  border-radius: 0px;
+  background:none;
+  border:none;
+}
 
+.DrillDownFilterNav>button.DrillDownFilterResetBtn{
+ height: 100%;
+ aspect-ratio: 1/1;
+ background-color: red;
+}
 
 /* Check Nested */
 .CheckNested{
