@@ -53,10 +53,30 @@
     --Accent025:#1c1c1c;
 }
 
-[data-pillar="Safe Workplaces"]{
+
+[data-pillar="Safe Workplaces"],
+[value="Safe Workplaces"]{
     --Accent100:#E94F37;
     --Accent050:#BF412D;
     --Accent025:#8F3022;
+}
+[data-pillar="Safe Homes"],
+[value="Safe Homes"]{
+    --Accent100:#FF7F39;
+    --Accent050:#DB5912;
+    --Accent025:#BD4300;
+}
+[data-pillar="Safe Communities"],
+[value="Safe Communities"]{
+    --Accent100:#30C73C;
+    --Accent050:#29A833;
+    --Accent025:#1B7022;
+}
+[data-pillar="Safe Schools and Childcare"],
+[value="Safe Schools and Childcare"]{
+    --Accent100:#329AFB;
+    --Accent050:#1875CC;
+    --Accent025:#0057A8;
 }
 
 body{
@@ -146,7 +166,7 @@ li.pill{
 
 .DrillDownFilterNav{
   color:#ffffff;
-  background-color:red;
+  background-color:var(--Accent100);
   display:flex;
   flex-wrap:nowrap;
 
@@ -174,13 +194,18 @@ li.pill{
   background:none;
   border:none;
   text-align: left;
+  display: block;
 
   padding: 1rem;
 
 
   .DrillDownFilterNav>&{
     color:#ffffff;
+    flex-grow:0;
 
+    &:last-child{
+      flex-grow: 1;
+    }
 
     &[data-level="2"]{
       background-color: var(--Accent100);
