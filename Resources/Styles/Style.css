@@ -236,11 +236,9 @@ li.pill{
 }
 
 .DrillDownFilterNav>button.DrillDownFilterResetBtn{
- height: 100%;
- aspect-ratio: 1/1;
- background-color: red;
+ background-color: var(--Accent025);
  position: relative;
- align-self: center;
+ align-self: stretch;
 }
 .DrillDownFilterNav>button.DrillDownFilterResetBtn::before{
   content:'';
