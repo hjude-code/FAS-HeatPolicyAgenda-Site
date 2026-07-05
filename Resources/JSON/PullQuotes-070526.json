@@ -46,5 +46,17 @@
     "StatNum": "$162 billion",
     "StatText": "the estimated annual cost of extreme heat [FAS]",
     "StatDataFrom": ""
+  },
+  {
+    "StatFor": "Safe Homes",
+    "StatNum": "13 million",
+    "StatText": "households report being too hot at home",
+    "StatDataFrom": ""
+  },
+  {
+    "StatFor": "Safe Homes",
+    "StatNum": "80 millon",
+    "StatText": "people struggle to pay their electricity bills",
+    "StatDataFrom": ""
   }
 ]

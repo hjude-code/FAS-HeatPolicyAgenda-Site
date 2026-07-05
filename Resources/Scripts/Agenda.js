@@ -56,13 +56,20 @@ const ReccsGroup =(Pillar)=>{
             <h3>${Recc}</h3>
             <p>${ReccDescription}</p>
         `
-
         ReccsList.append(ReccItem)
     })
 
     ReccsGroup.append(ReccsList)
 
     return ReccsGroup
+}
+
+function addStats(statContainer, statsFor){
+     const stats = Parser.pullAllOf(Parser.Data.PullQuotes, 'StatFor', statsFor);
+     stats.forEach((stat)=>{
+        const statBox = Cmpnt.statBlock(stat.StatNum, stat.StatText)
+        statContainer.append(statBox)
+     })
 }
 
 const PillarsOverview = document.querySelector("#PillarsOverview")
@@ -88,11 +95,25 @@ Parser.List.Pillars.forEach(pillar => {
     Description.classList.add('Description', 'bodyLarge')
     Description.innerHTML = PillarIntros[pillar]
 
+    const StatsSection = Cmpnt.container({
+        classes:['StatsSection'],
+        datasets:[['stats', pillar]]
+    })
+
     PillarSection.append(
         PillarTitleCard,
         Description,
+        StatsSection,
         ReccsGroup(pillar)
     )
 
     PillarsOverview.append(PillarSection)
+})
+
+const statContainers = document.querySelectorAll('.StatsSection')
+statContainers.forEach((container)=>{
+    console.log(container)
+    if(container.dataset.stats){
+        addStats(container, container.dataset.stats)
+    }
 })
