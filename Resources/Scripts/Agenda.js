@@ -81,7 +81,7 @@ Parser.List.Pillars.forEach(pillar => {
         classes:['PillarTitleCard']
     })
     PillarTitleCard.innerHTML = `
-        <h3>${pillar}</h3>
+        <h2>${pillar}</h2>
         <span class="ImageBlock"></span>
     `
 

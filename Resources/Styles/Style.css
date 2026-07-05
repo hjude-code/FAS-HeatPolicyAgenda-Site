@@ -88,6 +88,11 @@ h4{
 }
 p{
   margin-top: 0;
+
+  &.bodyLarge,
+  .bodyLarge>&{
+    font-size: 1.5rem;
+  }
 }
 
 body{
@@ -125,16 +130,18 @@ header>.HeaderInfo{
   grid-area:Info;
   display: flex;
   align-items: center;
-
-  height: 40px;
+  color:var(--Accent100);
 
   & img.logo{
-    height: 100%;
+    height: 2.5rem
   }
 
   & h1.site-title{
-    font-size: 1rem;
-    font-weight: 100;
+    font-size: 1.5rem;
+    display:inline-block;
+    padding-left: 0.5rem;
+    border-left: 1px solid currentColor;
+    font-weight: bold;
     margin:0px;
   }
 }
@@ -144,22 +151,51 @@ header>nav{
   display:flex;
   align-items:center;
 
-  &>.navItem{
-    display:block;
-    text-decoration:none;
-    position:relative;
+  &>a{
+    text-decoration: none;
+    display: block;
   }
 
-  &>.navItem::before{
-    content:'';
-    width:2px;
-    height:100%;
-    display:inline-block;
-    background-color:var(--Accent100);
+  &>.navItem{
+    position:relative;
+    margin:0px 0.5rem;
+    padding-left: 0.5rem;
+    color:#000000;
+
+    &::before{
+      content:'';
+      margin-right: 0.5rem;
+      width:2px;
+      position: absolute;
+      left: 0px;
+      top:0px;
+      bottom: 0px;
+      display:inline-block;
+      background-color:var(--Accent100);
+    }
+
+    &.navItemActive{
+      font-weight: 800;
+
+      &::before{
+        width:4px
+      }
+    }
+  }
+
+  &>.navBtn{
+    font-weight: bold;
+    padding: 0.75rem;
+    color:#ffffff;
+    background-color: var(--Accent100);
   }
 }
 header>.PageTitle{
   grid-area:Title;
+
+  & h1{
+    margin: 0.5rem;
+  }
 }
 
 
@@ -167,6 +203,15 @@ fieldset{
   padding:0px;
   margin:0px;
   border:none;
+}
+
+.rule{
+
+  &.rule-vertical{
+    height: 100%;
+    width: 2px;
+    background-color:currentColor;
+  }
 }
 
 /* Containers */
@@ -636,6 +681,15 @@ input.filterValue{
 }
 /* Agenda Page */
 
+#Introduction{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  &>p{
+    grid-column: span 2;
+  }
+}
+
 .PillarGroup{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -647,14 +701,16 @@ input.filterValue{
   & .ReccsGroup{
     grid-column:span 2;
   }
-
 }
-
 
 .PillarTitleCard{
   display: grid;
   grid-template-columns: 1fr 1fr;
   background-color: var(--Accent100);
+
+  & h2{
+    font-size: 3rem;
+  }
   
 }
 .ImageBlock{
@@ -662,6 +718,7 @@ input.filterValue{
   height: 100%;
   background-color: var(--Accent100);
   background-image: var(--heroImage);
+  background-blend-mode: luminosity;
   background-position: center;
   background-size: cover;
 }

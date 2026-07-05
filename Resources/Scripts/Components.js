@@ -20,12 +20,23 @@ export const container =({
     return container
 }
 
-const navItem =(name, href)=>{
+const navItem =(name, href, active=false)=>{
     const item = document.createElement('a');
     item.classList.add('navItem')
+    if(document.title == name){
+        item.classList.add('navItemActive')
+    }
     item.textContent = name;
     item.href = href;
     return item;
+}
+
+const navButton =(name, href)=>{
+    const navBtn = document.createElement('a')
+    navBtn.classList.add('navBtn')
+    navBtn.textContent = name
+    navBtn.href = href
+    return navBtn
 }
 
 const navBar =(items=[])=>{
@@ -33,7 +44,9 @@ const navBar =(items=[])=>{
     items.forEach(item => {
         const newNavItem = navItem(item.name, item.href)
         navbar.appendChild(newNavItem);
-    });
+    })
+
+    navbar.append(navButton('Sign Your Name', '#'))
 
     return navbar;
 }
@@ -44,7 +57,6 @@ const HeaderInfo=()=>{
 
     HeaderInfo.innerHTML = `
         <img class="logo" src="./Resources/Assets/Graphics/FAS7154_Logo_FAS_PrimaryBlue_RGB.svg"/>
-        <span class="rule-vertical"></span>
         <h1 class="site-title">Heat Policy Agenda</h1>
     `
     return HeaderInfo
@@ -64,7 +76,6 @@ const PageTitle=(Name)=>{
 
 export function ProcessHeader(){
     const header = document.querySelector('header');
-    
   
     header.append(HeaderInfo())
 
