@@ -464,13 +464,7 @@ function drillDownFilterClickHandler(e, ContentContainer){
     }
     if(e.target.classList.contains('DrillDownFilterResetBtn')){
         ResetFilter(e)
-    }
-
-    if(ContentContainer){
-        console.log(ContentContainer)
-    }
-
-    
+    }    
 }
 
 function DrillDownFilterDrillDown(e){
@@ -509,7 +503,6 @@ function DrillDownFilterDrillUp(e){
 
     const CurrentLevel = parseInt(DrillDownFilter.dataset.activelevel)
     const NewLevel = parseInt(e.target.dataset.level)
-    // console.log(CurrentLevel, NewLevel)
     if(CurrentLevel === NewLevel) return
     
     if(CurrentLevel !== NewLevel){
@@ -567,23 +560,32 @@ export const ExploreElement =(Pillar)=>{
         datasets:[['pillar', Pillar]]
     })
 
-    const PillarSection = ExploreTaxonomySection({Taxonomy:'Pillar'})
+    const PillarHead = ExplorePillarHead(Pillar)
 
 
-    const ReccSection = ExploreTaxonomySection({Taxonomy:'Recommendation'})
-    const PTypeSection = ExploreTaxonomySection({Taxonomy:'Policy Type'})
+    const ReccSection = ExploreTaxonomySection({ParentTaxonomy:'Pillar', Pillar:Pillar, Taxonomy:'Recommendation'})
+    
+    const PTypeSection = ExploreTaxonomySection({ParentTaxonomy:'Recommendation', Pillar:Pillar, Taxonomy:'Policy Type'})
 
-    ExploreElement.append(PillarSection, ReccSection, PTypeSection)
-
+    ReccSection.append(PTypeSection)
+    PillarHead.append(ReccSection)
+    ExploreElement.append(PillarHead)
+    ExploreElement.addEventListener('click', ExploreClickHandler)
     return ExploreElement
 }
 
 const ExploreTaxonomySection =({
-    Taxonomy
+    Pillar,
+    Taxonomy,
+    ParentTaxonomy
 }={})=>{
     const Section = container({
         classes:['TaxonomySection'],
-        datasets:[['Taxonomy',Taxonomy]]
+        datasets:[['taxonomy',Taxonomy]]
+    })
+
+    const TaxItems = container({
+        classes:["TaxItems"]
     })
 
     const SectionToggle = document.createElement('button')
@@ -592,36 +594,84 @@ const ExploreTaxonomySection =({
     const SectionContent = container({
         classes:["ExploreSectionContent"]
     })
+    const TaxGroup = Parser.getAssociated(Parser.Data.PolicyDataBase, 'Pillar', Pillar, Taxonomy)
 
-    Section.append(SectionToggle)
+    TaxGroup.forEach((TaxValue)=>{
+        SectionContent.append(
+            ExploreTaxonomyItem({ParentTaxonomy:ParentTaxonomy, Taxonomy:Taxonomy, Value:TaxValue})
+        )
+    })
+    TaxItems.append(SectionToggle, SectionContent)
+
+    Section.append(TaxItems)
     return Section
 }
 
-const ExploreTaxonomyItem =({Taxonomy, Level})=>{
+const ExplorePillarHead =(Pillar)=>{
+    const PillarHead = container({
+        classes:['ExplorePillarHead', 'TaxonomySection'],
+        datasets:[['pillar', Pillar], ['taxonomyvalue',Pillar]]
+    })
+    const Description = Parser.MatchDescription(Pillar)
+
+    PillarHead.innerHTML=`
+            <div class="TaxItems">
+                <button class="ExploreSectionToggle"></button>
+                <label class="Info">
+                    <h2>${Pillar}</h2>
+                    <p>${Description}</p>
+                    <input type="checkbox"></input>
+                </label>
+                <span class="ImageBlock"></span>
+            </div>
+    `
+
+    return PillarHead
+}
+
+const ExploreTaxonomyItem =({ParentTaxonomy, Taxonomy, Value}={})=>{
     const Label = document.createElement('label')
     Label.classList.add('TaxonomyItem')
-
-    const radio = document.createElement('input').type = 'radio'
+    Label.dataset.value = Parser.getAssociated(Parser.Data.PolicyDataBase, Taxonomy, Value, ParentTaxonomy)
+    const radio = document.createElement('input')
+    radio.type = "radio"
+    radio.name = Taxonomy
+    radio.value = Value
+    radio.classList.add('TaxRadioInput')
     const Title = document.createElement('h4')
     Title.textContent = Value
     const Description = document.createElement('p')
-    Description.textContent = Parser.MatchDescription(Value)
+    // Description.textContent = Parser.MatchDescription(Value)
 
     Label.append(Title, Description, radio)
+
+
+    return Label
 }
 
-function populateExploreSection({Section, Taxonomy, Value=null}={}){
-    let values
-    if(!Value){
-        values = Parser.getUnique(Taxonomy)
+export function ExploreClickHandler(e){
+    if(e.target.classList.contains('ExploreSectionToggle')){
+        ResetTaxonomySection(e)
     }
-    if(Value){
-        values = Parser.getAssociated(Parser.Data.PolicyDataBase, Taxonomy, Value, )
+    if(e.target.classList.contains('TaxRadioInput')){
+        SetChildrenVis(e)
     }
-}
-
-function ExploreClickHandler(e){
     
+}
+function ResetTaxonomySection(e){
+    const btn = e.target
+    const taxSection = btn.closest('.TaxonomySection')
+    const radios = taxSection.querySelectorAll('input')
+    radios.forEach((radio)=>{radio.checked = false})
+}
+function SetChildrenVis(e){
+    const value = e.target.value
+    const section = e.target.closest('.TaxonomySection')
+    const children = section.querySelectorAll(':scope>.TaxonomySection>.TaxItems .TaxonomyItem')
+    children.forEach((child)=>{
+        const displayValue = child.dataset.value === value ? '' : 'none'
+        child.style.display = displayValue
+    })
 }
 
 export const statBlock =(value, description)=>{
@@ -629,8 +679,8 @@ export const statBlock =(value, description)=>{
     statBlock.classList.add('statBlock')
 
     statBlock.innerHTML = `
-    <p>${value}</p>
-    <p>${description}</p>
+    <p class="statNum">${value}</p>
+    <p class="statTxt">${description}</p>
     `
     return statBlock
 }
