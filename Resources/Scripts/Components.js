@@ -173,7 +173,7 @@ export function CheckNested(ParentCheckGroup){
 
 export function ActionCard({Action="Action", DataControl="NA"}={}){
     const ActionCard = document.createElement('li');
-    ActionCard.className = 'ActionCard';
+    ActionCard.classList.add('ActionCard', 'TaxonomyItem')
     ActionCard.dataset.controller = DataControl;
 
     const Title = document.createElement('h3');
@@ -585,14 +585,34 @@ export const ExploreElement =(Pillar)=>{
 
 
     const ReccSection = ExploreTaxonomySection({ParentTaxonomy:'Pillar', Pillar:Pillar, Taxonomy:'Recommendation'})
-    
     const PTypeSection = ExploreTaxonomySection({ParentTaxonomy:'Recommendation', Pillar:Pillar, Taxonomy:'Policy Type'})
 
+    PTypeSection.append(ActionsGroup(Pillar))
     ReccSection.append(PTypeSection)
     PillarHead.append(ReccSection)
     ExploreElement.append(PillarHead)
     ExploreElement.addEventListener('click', ExploreClickHandler)
     return ExploreElement
+}
+
+const ActionsGroup =(pillar)=>{
+    const TaxonomySection = container({classes:['TaxonomySection']})
+    const TaxItems = document.createElement('ul')
+    TaxItems.classList.add("gridList", 'TaxItems')
+    const Actions = Parser.getAssociated(Parser.Data.PolicyDataBase, 'Pillar', pillar, 'Policy Action')
+    Actions.forEach((Action)=>{
+        const AssociatedPType = Parser.getAssociated(Parser.Data.PolicyDataBase, 'Policy Action', Action, 'Policy Type')
+
+        const Card = ActionCard({
+            Action:Action,
+            DataControl:AssociatedPType
+        })
+
+        TaxItems.append(Card)
+    })
+
+    TaxonomySection.append(TaxItems)
+    return TaxonomySection
 }
 
 const ExploreTaxonomySection =({
@@ -653,7 +673,7 @@ const ExplorePillarHead =(Pillar)=>{
 const ExploreTaxonomyItem =({ParentTaxonomy, Taxonomy, Value}={})=>{
     const Label = document.createElement('label')
     Label.classList.add('TaxonomyItem')
-    Label.dataset.value = Parser.getAssociated(Parser.Data.PolicyDataBase, Taxonomy, Value, ParentTaxonomy)
+    Label.dataset.controller = Parser.getAssociated(Parser.Data.PolicyDataBase, Taxonomy, Value, ParentTaxonomy)
     const radio = document.createElement('input')
     radio.type = "radio"
     radio.name = Taxonomy
@@ -677,9 +697,6 @@ export function ExploreClickHandler(e){
     if(e.target.classList.contains('TaxRadioInput')){
         SetChildrenVis(e)
     }
-
-    console.log(e)
-    
 }
 function ResetTaxonomySection(e){
     const btn = e.target
@@ -690,9 +707,10 @@ function ResetTaxonomySection(e){
 function SetChildrenVis(e){
     const value = e.target.value
     const section = e.target.closest('.TaxonomySection')
+    console.log(section)
     const children = section.querySelectorAll(':scope>.TaxonomySection>.TaxItems .TaxonomyItem')
     children.forEach((child)=>{
-        const displayValue = child.dataset.value === value ? '' : 'none'
+        const displayValue = child.dataset.controller === value ? '' : 'none'
         child.style.display = displayValue
     })
 }
