@@ -39,24 +39,43 @@ const navButton =(name, href)=>{
     return navBtn
 }
 
+const navToggle =()=>{
+    const navToggle = document.createElement('label')
+    navToggle.classList.add('navToggle')
+
+    const navToggleInput = document.createElement('input')
+    navToggleInput.classList.add('hiddenInput')
+    navToggleInput.type = 'checkbox'
+    navToggle.name = 'navToggle'
+    
+    navToggle.append(navToggleInput)
+    return navToggle
+}
+
 const navBar =(items=[])=>{
     const navbar = document.createElement('nav');
+    navbar.classList.add('navbar')
+    const navItems = container({
+        classes:['FlexContainer', 'FlexRow']
+    })
+    navItems.classList.add('navItems')
     items.forEach(item => {
         const newNavItem = navItem(item.name, item.href)
-        navbar.appendChild(newNavItem);
+        navItems.appendChild(newNavItem);
     })
 
-    navbar.append(navButton('Sign Your Name', '#'))
+    navbar.append(navItems, navToggle(), navButton('Sign Your Name', '#'))
 
     return navbar;
 }
 
 const HeaderInfo=()=>{
     const HeaderInfo =document.createElement('div')
-    HeaderInfo.classList.add('HeaderInfo')
+    HeaderInfo.classList.add('HeaderInfo', 'Container',  'FlexContainer', 'ContainerGap-Mini')
 
     HeaderInfo.innerHTML = `
-        <img class="logo" src="./Resources/Assets/Graphics/FAS7154_Logo_FAS_PrimaryBlue_RGB.svg"/>
+        <img class="Logo Logo-Desktop" src="./Resources/Assets/Graphics/FAS-Logo-Primary-Blue.svg"/>
+        <img class="Logo Logo-Mobile" src="./Resources/Assets/Graphics/FAS-Logo-Secondary-Blue.svg"/>
         <h1 class="site-title">Heat Policy Agenda</h1>
     `
     return HeaderInfo
@@ -76,17 +95,19 @@ const PageTitle=(Name)=>{
 
 export function ProcessHeader(){
     const header = document.querySelector('header');
-  
-    header.append(HeaderInfo())
+    const headerMain = document.createElement('div')
+    headerMain.classList.add('headerMain')
+    headerMain.append(HeaderInfo())
 
-    header.append(navBar([
+    headerMain.append(navBar([
         { name: 'The Agenda', href: './index.html' },
         { name: 'Explore', href: './explore.html' },
         { name: 'Database', href: './database.html' },
         { name: 'Policy in Action', href: './map.html' }
     ]));
 
-    header.append(PageTitle(header.dataset.pagename))
+
+    header.append(headerMain, PageTitle(header.dataset.pagename))
     
 }
 
@@ -619,8 +640,8 @@ const ExplorePillarHead =(Pillar)=>{
                 <button class="ExploreSectionToggle"></button>
                 <label class="Info">
                     <h2>${Pillar}</h2>
-                    <p>${Description}</p>
-                    <input type="checkbox"></input>
+                    <p class="bodyLarge">${Description}</p>
+                    <input type="radio" name="Pillar"></input>
                 </label>
                 <span class="ImageBlock"></span>
             </div>
