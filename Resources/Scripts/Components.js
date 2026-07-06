@@ -172,11 +172,12 @@ export function CheckNested(ParentCheckGroup){
 }
 
 export function ActionCard({Action="Action", DataControl="NA"}={}){
+    const ActionItemData = Parser.getAssociated(Parser.Data.PolicyDataBase, 'Policy Action', Action)[0]
+
     const ActionCard = document.createElement('li');
     ActionCard.classList.add('ActionCard', 'TaxonomyItem')
     ActionCard.dataset.controller = DataControl;
-
-    const ActionItemData = Parser.getAssociated(Parser.Data.PolicyDataBase, 'Policy Action', Action)[0]
+    ActionCard.dataset.pillar = ActionItemData.Pillar
 
     const Lever = document.createElement('p')
     Lever.textContent = ActionItemData['Policy Lever']

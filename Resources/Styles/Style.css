@@ -791,9 +791,30 @@ input.filterValue{
 /* Action Card */
 .ActionCard{
 
-  border-left: var(--BorderLight) solid var(--Accent100);
-  padding: var(--Spc-Small);
+  
 
+  border-left: var(--BorderLight) solid var(--Accent100);
+
+  &>p{
+    padding: var(--Spc-Mini);
+  }
+
+  & .ActionExamples{
+    font-family:'FraktionMono';
+    border-top:var(--BorderLight) dotted var(--Accent100);
+    padding:var(--Spc-Mini);
+    font-size: 0.75rem;
+    
+  }
+
+  &> .PolicyLeverFlag{
+    display: inline-block;
+    font-family: 'FraktionMono';
+    font-size: 0.75rem;
+    padding: var(--Spc-Mini);
+    border: var(--BorderLight) solid var(--Accent100);
+    border-left:none;
+  }
 
 }
 
@@ -889,10 +910,6 @@ input.filterValue{
   display: none;
   }
 
-
-  & {
-
-  }
   &:not(:has(input:checked)) p{
     display: none;
   }
